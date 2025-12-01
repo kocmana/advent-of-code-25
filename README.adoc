@@ -1,0 +1,40 @@
+:toc: macro
+:toclevels: 3
+:toc-title: Table of Contents
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :point_right:
+:important-caption: :loudspeaker:
+:caution-caption: :rotating_light:
+:warning-caption: :warning:
+endif::[]
+
+= Advent Of Code 2025
+
+toc::[]
+
+== About
+Solutions for the https://adventofcode.com/2025/[advent of code] of 2025, this year again in Kotlin.
+
+== Solutions
+
+[.center,width="50%", cols="^h,^1,^1"]
+|===
+| Day | Challenge 1 | Challenge 2
+
+|01| |
+|02| |
+|03| |
+|04| |
+|05| |
+|06| |
+|07| |
+|08| |
+|09| |
+|10| |
+|11| |
+|12| |
+|===
+
+__* read up on better solutions before commiting__
