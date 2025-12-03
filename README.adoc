@@ -24,7 +24,7 @@ Solutions for the https://adventofcode.com/2025/[advent of code] of 2025, this y
 | Day | Challenge 1 | Challenge 2
 
 |01| |
-|02| |
+|02|👍|👍
 |03| |
 |04| |
 |05| |
