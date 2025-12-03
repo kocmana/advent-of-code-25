@@ -1,17 +1,19 @@
 package aoc25.dec03
 
 import Parser
+import kotlin.math.pow
 
 fun main() {
     val input = Parser().readFile("dec03/lobby-input.txt")
-    val result = solveLobbyPart1(input)
-        .also { println(it) }
+    solveLobby(input, 2)
+        .also { println("Result: ${it.toBigDecimal().toPlainString()}") }
 }
 
-private fun solveLobbyPart1(input: List<String>) =
+fun solveLobby(input: List<String>, numberOfBatteries: Int) =
     input.asSequence()
         .map { dissolveBatteries(it) }
-        .map { identifyMaximumJoltage(it) }
+        .map { identifyMaximumJoltageGeneric(it, numberOfBatteries)
+            .also { println(it.toBigDecimal().toPlainString()) } }
         .reduce { a, b -> a + b }
 
 private fun dissolveBatteries(input: String) =
@@ -20,10 +22,14 @@ private fun dissolveBatteries(input: String) =
         .map { it.toInt() }
         .toList()
 
-private fun identifyMaximumJoltage(batteries: List<Int>): Int {
-    val firstElement = batteries.subList(0, batteries.size - 1).max()
-    val secondElement = batteries.subList(batteries.indexOf(firstElement) + 1, batteries.size).max()
-    val result = (firstElement * 10) + secondElement
-    println("Batteries: $batteries, firstElement: $firstElement, secondElement: $secondElement, result: $result")
+private fun identifyMaximumJoltageGeneric(batteries: List<Int>, numberOfRemainingBatteries: Int): Double {
+    if (numberOfRemainingBatteries == 0) {
+        return 0.0
+    }
+
+    val element = batteries.subList(0, batteries.size - numberOfRemainingBatteries + 1).max()
+    val remainingBatteries = batteries.subList(batteries.indexOf(element) + 1, batteries.size)
+    val otherElements = identifyMaximumJoltageGeneric(remainingBatteries, numberOfRemainingBatteries - 1)
+    val result = (element * 10.0.pow(numberOfRemainingBatteries.toDouble() - 1)) + otherElements
     return result
 }
