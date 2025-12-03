@@ -1,4 +1,4 @@
-package at.kocmana.helper
+package helper
 
 fun <T> getPairCombinations(input: List<T>): List<Pair<T, T>> {
     val combinations = mutableListOf<Pair<T, T>>()

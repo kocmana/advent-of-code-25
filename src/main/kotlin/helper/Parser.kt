@@ -1,5 +1,3 @@
-package at.kocmana.helper
-
 class Parser {
 
     fun readFile(filename: String): List<String> =

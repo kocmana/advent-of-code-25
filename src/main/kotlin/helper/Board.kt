@@ -1,5 +1,6 @@
-package at.kocmana.helper
+package helper
 
+import Parser
 
 class Board<T : Any> {
     val board: List<List<T>>
