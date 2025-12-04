@@ -3,14 +3,14 @@ package helper
 import Parser
 
 class Board<T : Any> {
-    val board: List<List<T>>
+    val board: MutableList<MutableList<T>>
     val agents: MutableList<Agent> = mutableListOf()
 
     constructor(file: String, transformingFunction: (String) -> T) {
         val stringArrays = Parser().readFileTo2dArrayAndTranspose(file)
         board = stringArrays.map { row ->
-            row.map { transformingFunction(it) }.toList()
-        }.toList()
+            row.map { transformingFunction(it) }.toMutableList()
+        }.toMutableList()
     }
 
     fun generateAgent(startingPosition: Position): Agent {
@@ -57,6 +57,10 @@ class Board<T : Any> {
     fun getPosition(position: Position) =
         if (isValidPosition(position)) board[position.x][position.y] else null
 
+    fun setPosition(position: Position, value: T) =
+        if (isValidPosition(position)) board[position.x][position.y] = value
+        else throw IllegalArgumentException("Invalid position $position")
+
     inner class Agent internal constructor(var position: Position) {
 
         infix fun canMoveTo(direction: Direction) =
@@ -86,7 +90,10 @@ class Board<T : Any> {
 
     inner class Position(val x: Int, val y: Int) {
         fun getValue() =
-            if(this@Board.isValidPosition(this)) this@Board.getPosition(this) else null
+            this@Board.getPosition(this)
+
+        fun setValue(value: T) =
+            this@Board.setPosition(this, value)
 
         infix fun andOneStepTo(direction: Direction) =
             Position(this.x + direction.vector.x, this.y + direction.vector.y)
@@ -136,8 +143,12 @@ class Board<T : Any> {
 }
 
 enum class Direction(val vector: Vector) {
+    TOP_LEFT(Vector(-1, -1)),
     UP(Vector(0, -1)),
+    TOP_RIGHT(Vector(1, -1)),
     DOWN(Vector(0, 1)),
-    LEFT(Vector(-1, 0)),
-    RIGHT(Vector(1, 0));
+    BOTTOM_RIGHT(Vector(1, 1)),
+    RIGHT(Vector(1, 0)),
+    BOTTOM_LEFT(Vector(-1, 1)),
+    LEFT(Vector(-1, 0));
 }
