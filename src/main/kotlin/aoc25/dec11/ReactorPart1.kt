@@ -12,7 +12,7 @@ fun main() {
     val startNode = nodes["you"]
     val endNode = nodes["out"]
 
-    println(traverse(startNode!!, endNode!!, listOf()).size)
+    println(traverse(startNode!!, endNode!!))
 }
 
 fun parseCableNodeInput(input: String): Pair<String, List<String>> {
@@ -39,12 +39,10 @@ fun buildNodes(input: List<Pair<String, List<String>>>) {
     }
 }
 
-fun traverse(current: CableNode, end: CableNode, history: List<CableNode>): List<CableNode> {
+private fun traverse(current: CableNode, end: CableNode): Int {
     if (current == end) {
-        return listOf(current)
+        return 1
     }
 
-     return current.output.asSequence()
-         .flatMap{ traverse(it, end, history) }
-         .toList()
+    return current.output.sumOf { traverse(it, end) }
 }
