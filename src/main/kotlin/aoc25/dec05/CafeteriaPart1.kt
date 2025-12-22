@@ -1,9 +1,9 @@
 package aoc25.dec05
 
-import Parser
+import helper.Parser
 
 fun main() {
-    val input = Parser().readFile("dec05/cafeteria-input.txt")
+    val input = Parser().readFile("/dec05/cafeteria-input.txt")
     val (ranges, ids) = extractInstructions(input)
     checkIfWithinRanges(ids, ranges)
         .also { println("Result: $it") }

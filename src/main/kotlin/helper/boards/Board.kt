@@ -1,10 +1,10 @@
-package helper
+package helper.boards
 
-import Parser
+import helper.Parser
+import helper.math.Vector
 
-class Board<T : Any> {
+open class Board<T : Any> {
     val board: MutableList<MutableList<T>>
-    val agents: MutableList<Agent> = mutableListOf()
 
     constructor(file: String, transformingFunction: (String) -> T) {
         val stringArrays = Parser().readFileTo2dArrayAndTranspose(file)
@@ -13,14 +13,9 @@ class Board<T : Any> {
         }.toMutableList()
     }
 
-    fun generateAgent(startingPosition: Position): Agent {
-        if (!isValidPosition(startingPosition)) {
-            throw IllegalArgumentException("Invalid start position")
-        }
-        val agent = Agent(startingPosition)
-        agents.add(agent)
-        return agent
-    }
+    fun getWidth() = board.size
+
+    fun getHeight() = board[0].size
 
     fun getPositionsAsSequence(): Sequence<Board<T>.Position> {
         val positions = mutableListOf<Board<T>.Position>()
@@ -61,30 +56,13 @@ class Board<T : Any> {
         if (isValidPosition(position)) board[position.x][position.y] = value
         else throw IllegalArgumentException("Invalid position $position")
 
-    inner class Agent internal constructor(var position: Position) {
-
-        infix fun canMoveTo(direction: Direction) =
-            this@Board.isValidPosition(position andOneStepTo direction)
-
-        infix fun move(direction: Direction) {
-            val newPosition = position andOneStepTo direction
-            if (canMoveTo(direction)) this.position = this.position andOneStepTo direction
-        }
-
-        fun getApplicableDirections(predicate: (T) -> Boolean) =
-            Direction.entries.filter {
-                this.position.getNextPositionToDirection(it)
-                    ?.let { value -> predicate.invoke(value) }
-                    ?: false
+    open fun print() {
+        for (col in board) {
+            for (row in col) {
+                print(row)
             }
-
-        fun moveWhereApplicable(predicate: (T) -> Boolean) {
-            val direction = Direction.entries.first {
-                this.position.getNextPositionToDirection(it)
-                    ?.let { value -> predicate.invoke(value) }
-                    ?: false
-            }
-            position = position andOneStepTo direction
+            println()
+            println()
         }
     }
 
@@ -146,9 +124,9 @@ enum class Direction(val vector: Vector) {
     TOP_LEFT(Vector(-1, -1)),
     UP(Vector(0, -1)),
     TOP_RIGHT(Vector(1, -1)),
-    DOWN(Vector(0, 1)),
-    BOTTOM_RIGHT(Vector(1, 1)),
     RIGHT(Vector(1, 0)),
+    BOTTOM_RIGHT(Vector(1, 1)),
+    DOWN(Vector(0, 1)),
     BOTTOM_LEFT(Vector(-1, 1)),
     LEFT(Vector(-1, 0));
 }

@@ -1,10 +1,10 @@
 package aoc25.dec03
 
-import Parser
+import helper.Parser
 import kotlin.math.pow
 
 fun main() {
-    val input = Parser().readFile("dec03/lobby-input.txt")
+    val input = Parser().readFile("/dec03/lobby-input.txt")
     solveLobby(input, 2)
         .also { println("Result: ${it.toBigDecimal().toPlainString()}") }
 }

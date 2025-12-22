@@ -1,10 +1,10 @@
 package aoc25.dec04
 
-import helper.Board
-import helper.getNeighboringPositionsAndNullWhere
+import helper.boards.Board
+import helper.boards.getNeighboringPositionsAndNullWhere
 
 fun main() {
-    val board = Board<String>(file = "dec04/printing-departement-input.txt", transformingFunction = { it })
+    val board = Board<String>(file = "/dec04/printing-departement-input.txt", transformingFunction = { it })
     solvePrintingDepartement(board)
         .also { println("Result: $it") }
 }

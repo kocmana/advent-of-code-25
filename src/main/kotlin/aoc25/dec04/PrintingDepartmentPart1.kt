@@ -1,10 +1,10 @@
 package aoc25.dec04
 
-import helper.getNeighboringPositionsAndNullWhere
-import helper.Board
+import helper.boards.getNeighboringPositionsAndNullWhere
+import helper.boards.Board
 
 fun main() {
-    val board = Board<String>(file = "dec04/printing-departement-input.txt", transformingFunction = { it })
+    val board = Board<String>(file = "/dec04/printing-departement-input.txt", transformingFunction = { it })
     board.getPositionsAsSequence()
         .filter{ it.getValue() == "@" }
         .filter { it.getNeighboringPositionsAndNullWhere { value -> value == "@" }.size < 4 }

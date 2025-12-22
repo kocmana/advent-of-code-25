@@ -1,6 +1,6 @@
 package aoc25.dec06
 
-import Parser
+import helper.Parser
 
 fun main() {
     val input = Parser().readFile("dec06/trash-compactor-input.txt");
@@ -10,13 +10,7 @@ fun main() {
 }
 
 fun solve(parsedInput: List<Calculation>) =
-    parsedInput.sumOf { calculation ->
-        when (calculation.operator) {
-            Operator.PLUS -> calculation.operands.reduce { acc, v -> acc + v }
-            Operator.MULTIPLY -> calculation.operands.reduce { acc, v -> acc * v }
-        }
-    }
-
+    parsedInput.sumOf { it.solve() }
 
 fun parseInput(input: List<String>): List<Calculation> {
     val operands = input.subList(0, input.size - 1)
@@ -51,6 +45,19 @@ fun parseInput(input: List<String>): List<Calculation> {
         .toList()
 }
 
-data class Calculation(val operands: List<Long>, val operator: Operator) {}
+data class Calculation(val operands: List<Long>, val operator: Operator) {
+    fun solve() = when (operator) {
+        Operator.PLUS -> operands.reduce { acc, v -> acc + v }
+        Operator.MULTIPLY -> operands.reduce { acc, v -> acc * v }
+    }
+}
 
-enum class Operator { PLUS, MULTIPLY }
+enum class Operator(val value: String) {
+    PLUS("+"),
+    MULTIPLY("*");
+
+    companion object {
+        fun fromSymbol(symbol: String) =
+            entries.first { it.value == symbol }
+    }
+}

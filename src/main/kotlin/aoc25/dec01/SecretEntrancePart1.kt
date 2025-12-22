@@ -1,9 +1,10 @@
 package aoc25.dec01
 
-import Parser
+import helper.Parser
+
 
 fun main() {
-    val input = Parser().readFile("./dec01/secret-entrance-input.txt")
+    val input = Parser().readFile("/dec01/secret-entrance-input.txt")
         .map{ parseLine(it) }
     val entranceDial = EntranceDial()
     entranceDial.solvePart1(input)

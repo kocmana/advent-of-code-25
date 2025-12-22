@@ -1,4 +1,4 @@
-package helper
+package helper.boards
 
 fun <T : Any> Board<T>.Position.getNeighboringPositionsAndNullWhere(predicate: (T?) -> Boolean) =
     Direction.entries.map { this andOneStepTo (it) }

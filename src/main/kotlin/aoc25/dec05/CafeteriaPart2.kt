@@ -1,9 +1,9 @@
 package aoc25.dec05
 
-import Parser
+import helper.Parser
 
 fun main() {
-    val input = Parser().readFile("dec05/cafeteria-input.txt")
+    val input = Parser().readFile("/dec05/cafeteria-input.txt")
     val (ranges, _) = extractInstructions(input)
     overlapRanges(ranges)
         .sumOf { it.last - it.first  + 1}

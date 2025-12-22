@@ -1,6 +1,6 @@
 package helper
 
-fun <T> getPairCombinations(input: List<T>): List<Pair<T, T>> {
+fun <T> getPairCombinationsUnidirectional(input: List<T>): List<Pair<T, T>> {
     val combinations = mutableListOf<Pair<T, T>>()
     input.forEach { element ->
         val otherElements = input.minus(element)
@@ -8,6 +8,10 @@ fun <T> getPairCombinations(input: List<T>): List<Pair<T, T>> {
     }
     return combinations.toList()
 }
+
+fun <T> getPairCombinationsBidirectional(input: List<T>): Set<Pair<T, T>> =
+    input.flatMapIndexed { i, a -> input.drop(i + 1).map { b -> a to b } }
+        .toSet()
 
 fun <T> MutableList<T>.cutAndInsertPartialList(fromIndex: Int, length: Int, targetIndex: Int) {
     val sublist = this.subList(fromIndex, fromIndex + length).toList()
@@ -28,3 +32,20 @@ fun parseBoardAsInt(board: Array<Array<String>>) =
         row.map { it.toInt() }.toTypedArray()
     }.toTypedArray()
 
+fun splitListIntoSublistsBasedOnDelimiter(input: List<String>, delimiter: Regex): List<List<String>> {
+    val result = mutableListOf<List<String>>()
+    var currentSublist = mutableListOf<String>()
+
+    for (item in input) {
+        if(delimiter.matches(item)) {
+            result.add(currentSublist)
+            currentSublist = mutableListOf()
+        } else {
+            currentSublist.add(item)
+        }
+    }
+    if(currentSublist.isNotEmpty()) {
+        result.add(currentSublist)
+    }
+    return result
+}
